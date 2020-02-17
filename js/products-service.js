@@ -4,8 +4,11 @@ class ProductsService {
         return ProductsService._instance;
     }
     async getProducts() {
-        if (!this.products) {
-            this.products = await (await fetch('products.json')).json();
+         if (!this.products) {
+            const response = await fetch('products.json');
+            const data = await response.json();
+            data.sort( (a, b) => b.price - a.price );
+            this.products = data;
         }
         return this.products;
     }
